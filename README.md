@@ -15,7 +15,7 @@ services already provided by Home Assistant's built-in **Sonos** integration.
 2. Install "Sonos Augmented Card", then add the resource if HACS doesn't do it automatically.
 
 ### Manual
-1. Copy `dist/sonos-augmented-card.js` to `<config>/www/sonos-augmented-card.js`.
+1. Copy `sonos-augmented-card.js` to `<config>/www/sonos-augmented-card.js`.
 2. Add it as a Lovelace resource:
    ```yaml
    resources:
@@ -43,6 +43,6 @@ volume_step: 2
 
 ```bash
 npm install
-npm run build   # bundles src/ -> dist/sonos-augmented-card.js
+npm run build   # bundles src/ -> sonos-augmented-card.js
 npm run watch   # rebuild on change
 ```
