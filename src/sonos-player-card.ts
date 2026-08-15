@@ -1,11 +1,12 @@
 import { LitElement, html, css, nothing, PropertyValues } from "lit";
 import { customElement, property, state } from "lit/decorators.js";
-import type { HomeAssistant } from "custom-card-helpers";
+import type { HomeAssistant, LovelaceCardEditor } from "custom-card-helpers";
 import type { SonosCardConfig } from "./types";
 import { friendlyName, getActiveEntity } from "./sonos-state";
 import { sharedStyles } from "./styles";
 import "./sonos-zones-dialog";
 import "./sonos-library-dialog";
+import "./sonos-card-editor";
 
 const CARD_TAG = "sonos-player-card";
 
@@ -16,7 +17,10 @@ export class SonosPlayerCard extends LitElement {
   @state() private _showZones = false;
   @state() private _showLibrary = false;
 
-  // No GUI editor yet — configure via YAML (`entities: [media_player....]`).
+  public static getConfigElement(): LovelaceCardEditor {
+    return document.createElement("sonos-card-editor") as unknown as LovelaceCardEditor;
+  }
+
   public static getStubConfig(): Partial<SonosCardConfig> {
     return { entities: [] };
   }

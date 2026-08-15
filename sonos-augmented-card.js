@@ -351,6 +351,73 @@ SonosLibraryDialog = __decorate([
     t("sonos-library-dialog")
 ], SonosLibraryDialog);
 
+const SCHEMA = [
+    {
+        name: "entities",
+        selector: {
+            entity: {
+                domain: "media_player",
+                multiple: true,
+            },
+        },
+    },
+    {
+        name: "volume_step",
+        selector: {
+            number: {
+                min: 1,
+                max: 20,
+                mode: "box",
+            },
+        },
+    },
+];
+let SonosCardEditor = class SonosCardEditor extends i {
+    constructor() {
+        super(...arguments);
+        this._computeLabel = (schema) => {
+            switch (schema.name) {
+                case "entities":
+                    return "Sonos speakers";
+                case "volume_step":
+                    return "Volume step (%)";
+                default:
+                    return schema.name;
+            }
+        };
+    }
+    setConfig(config) {
+        this._config = config;
+    }
+    _valueChanged(ev) {
+        const config = ev.detail.value;
+        this._config = config;
+        this.dispatchEvent(new CustomEvent("config-changed", { detail: { config } }));
+    }
+    render() {
+        if (!this.hass || !this._config)
+            return A;
+        return b `
+      <ha-form
+        .hass=${this.hass}
+        .data=${this._config}
+        .schema=${SCHEMA}
+        .computeLabel=${this._computeLabel}
+        @value-changed=${this._valueChanged}
+      ></ha-form>
+    `;
+    }
+};
+__decorate([
+    n({ attribute: false })
+], SonosCardEditor.prototype, "hass", void 0);
+__decorate([
+    r()
+], SonosCardEditor.prototype, "_config", void 0);
+SonosCardEditor = __decorate([
+    t("sonos-card-editor")
+], SonosCardEditor);
+
 const CARD_TAG = "sonos-player-card";
 let SonosPlayerCard = class SonosPlayerCard extends i {
     constructor() {
@@ -358,7 +425,9 @@ let SonosPlayerCard = class SonosPlayerCard extends i {
         this._showZones = false;
         this._showLibrary = false;
     }
-    // No GUI editor yet — configure via YAML (`entities: [media_player....]`).
+    static getConfigElement() {
+        return document.createElement("sonos-card-editor");
+    }
     static getStubConfig() {
         return { entities: [] };
     }

@@ -25,6 +25,10 @@ services already provided by Home Assistant's built-in **Sonos** integration.
 
 ## Configuration
 
+Add the card via the dashboard UI's "Add Card" button and pick **Sonos Player**
+to use the visual editor (pick speakers from a filtered `media_player` list,
+set the volume step), or configure it directly in YAML:
+
 ```yaml
 type: custom:sonos-player-card
 entities:
